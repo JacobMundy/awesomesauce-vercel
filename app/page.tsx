@@ -19,9 +19,6 @@ export default async function Home() {
       <section className="text-center">
         <div>
           <p className="text-4xl font-bold mb-4">hello!</p>
-          <p className="text-lg text-gray-700 dark:text-gray-300">
-            we doin react now
-          </p>
         </div>
       </section>
 

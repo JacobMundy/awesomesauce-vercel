@@ -141,7 +141,6 @@ export default async function RecipeDetails({ params }) {
 		<main className="body w-full min-h-screen py-20 px-4 md:px-8 max-w-5xl mx-auto">
 			{/* Recipe header info */}
 			<RecipeInfo recipe={data} />
-
 			{/* Two column layout — stacks on mobile */}
 			<div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 items-start">
 				{/* Ingredients — sticky on desktop */}
@@ -150,10 +149,6 @@ export default async function RecipeDetails({ params }) {
 					<p className="text-xs text-gray-500 mb-4">
 						Tap to check off as you go
 					</p>
-					{/* 
-            UnitToggle needs to be a client component to manage state.
-            For now unit is hardcoded above — see note below. 
-          */}
 					<IngredientsList ingredients={ingredients} unit={unit} />
 				</aside>
 
