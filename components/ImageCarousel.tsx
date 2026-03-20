@@ -1,39 +1,41 @@
-"use client"
-import useEmblaCarousel from "embla-carousel-react"
-import Image from "next/image"
-import { useEffect, useState } from "react"
+"use client";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function ImageCarousel({ images }: { images: string[] }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" })
-  const [fullscreen, setFullscreen] = useState<string | null>(null)
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3000 })]);
+
+  const [fullscreen, setFullscreen] = useState<string | null>(null);
   useEffect(() => {
-    if (!emblaApi) return
+    if (!emblaApi) return;
     const onWheel = (event: WheelEvent) => {
-      event.preventDefault()
-      if (event.deltaY < 0) emblaApi.scrollPrev()
-      else if (event.deltaY > 0) emblaApi.scrollNext()
-    }
-    emblaApi.containerNode().addEventListener("wheel", onWheel)
-    return () => emblaApi.containerNode().removeEventListener("wheel", onWheel)
-  }, [emblaApi])
+      event.preventDefault();
+      if (event.deltaY < 0) emblaApi.scrollPrev();
+      else if (event.deltaY > 0) emblaApi.scrollNext();
+    };
+    emblaApi.containerNode().addEventListener("wheel", onWheel);
+    return () => emblaApi.containerNode().removeEventListener("wheel", onWheel);
+  }, [emblaApi]);
 
   function onKeyDown(event: KeyboardEvent) {
     if (event.key === "Escape") {
-      setFullscreen(null)
+      setFullscreen(null);
     } else if (event.key === "ArrowLeft") {
-      emblaApi?.scrollPrev()
+      emblaApi?.scrollPrev();
     } else if (event.key === "ArrowRight") {
-      emblaApi?.scrollNext()
+      emblaApi?.scrollNext();
     }
   }
   useEffect(() => {
-    window.addEventListener("keydown", onKeyDown)
-    return () => window.removeEventListener("keydown", onKeyDown)
-  }, [emblaApi])
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [emblaApi]);
   return (
     <>
       <div className="relative w-full max-w-2xl">
-        <div className="overflow-hidden px-12" ref={emblaRef}>
+        <div className="overflow-hidden px-4" ref={emblaRef}>
           <div className="flex gap-4">
             {images.map((url) => (
               <div
@@ -49,7 +51,9 @@ export default function ImageCarousel({ images }: { images: string[] }) {
                   className="object-contain"
                   alt=""
                 />
-                <p className=" text-center text-2xl font-bold dark:text-gray-400 mt-2">{url.split('/').pop()}</p>
+                <p className=" text-center text-2xl font-bold dark:text-gray-400 mt-2">
+                  {url.split("/").pop()}
+                </p>
               </div>
             ))}
           </div>
@@ -70,13 +74,11 @@ export default function ImageCarousel({ images }: { images: string[] }) {
               alt=""
             />
           </div>
-          <button
-            className="absolute top-4 right-4 text-white text-2xl bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/80"
-          >
+          <button className="absolute top-4 right-4 text-white text-2xl bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/80">
             ✕
           </button>
         </div>
       )}
     </>
-  )
+  );
 }
