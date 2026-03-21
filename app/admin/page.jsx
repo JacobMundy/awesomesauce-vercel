@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import SignOutButton from "./SignOutButton";
+import UpdateDbButtons from "./UpdateDbButtons";
 
 export default async function AdminDashboard() {
 	const supabase = await createClient();
@@ -20,14 +21,17 @@ export default async function AdminDashboard() {
 			href: "/admin/recipes",
 			label: "Recipes",
 			description: "Add, edit, or remove recipes",
-			icon: "🍳",
 		},
 		{
 			href: "/admin/images",
 			label: "Images",
 			description: "Upload images to storage",
-			icon: "🖼️",
 			disabled: true,
+		},
+		{
+			href: "/admin/test-db",
+			label: "Test DB",
+			description: "Test database reads, writes, and cache revalidation",
 		},
 	];
 
@@ -59,8 +63,7 @@ export default async function AdminDashboard() {
 								<span className="absolute top-3 right-3 text-[10px] uppercase tracking-widest opacity-50 border border-foreground/20 rounded-full px-2 py-0.5">
 									Soon
 								</span>
-								<div className="text-3xl mb-4">{section.icon}</div>
-								<h2 className="font-semibold text-lg mb-1">{section.label}</h2>
+								<div className="text-3xl mb-4">{section.label}</div>
 								<p className="text-sm opacity-50">{section.description}</p>
 							</div>
 						) : (
@@ -69,8 +72,7 @@ export default async function AdminDashboard() {
 								href={section.href}
 								className="group relative rounded-2xl border border-foreground/10 bg-foreground/5 p-6 hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-200"
 							>
-								<div className="text-3xl mb-4">{section.icon}</div>
-								<h2 className="font-semibold text-lg mb-1">{section.label}</h2>
+								<div className="text-3xl mb-4">{section.label}</div>
 								<p className="text-sm opacity-50">{section.description}</p>
 								<span className="absolute bottom-5 right-5 opacity-30 group-hover:opacity-70 transition-opacity text-lg">
 									→
@@ -81,7 +83,9 @@ export default async function AdminDashboard() {
 				</div>
 
 				{/* Back to site */}
-				<div className="mt-10">
+				<div className="my-14 border-t border-foreground/10" />
+				<UpdateDbButtons />
+				<div className="mt-14">
 					<Link
 						href="/"
 						className="text-xs opacity-40 hover:opacity-70 transition-opacity uppercase tracking-widest"

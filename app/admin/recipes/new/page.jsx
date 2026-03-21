@@ -17,7 +17,7 @@ export default async function NewRecipePage() {
 
 	return (
 		<main className="min-h-screen bg-background text-foreground px-4 py-16 md:px-8">
-			<div className="max-w-2xl mx-auto">
+			<div className="w-full mx-auto">
 				<Link
 					href="/admin/recipes"
 					className="text-xs opacity-40 hover:opacity-70 transition-opacity uppercase tracking-widest block mb-8"
