@@ -1,21 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import SignOutButton from "./SignOutButton";
 import UpdateDbButtons from "./UpdateDbButtons";
+import AdminHeader from "./AdminHeader";
 
 export default async function AdminDashboard() {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) redirect("/admin/login");
-	if (user.user_metadata?.provider_id !== process.env.ADMIN_GITHUB_ID)
-		redirect("/");
-
-	const username = user.user_metadata?.user_name;
-
 	const sections = [
 		{
 			href: "/admin/recipes",
@@ -33,26 +21,20 @@ export default async function AdminDashboard() {
 			label: "Test DB",
 			description: "Test database reads, writes, and cache revalidation",
 		},
+		{
+			href: "/admin/security-test",
+			label: "Security",
+			description: "Verify auth guards on routes and server actions",
+		},
 	];
 
 	return (
 		<main className="min-h-screen bg-background text-foreground px-4 py-16 md:px-8">
 			<div className="max-w-3xl mx-auto">
-				{/* Header */}
-				<div className="flex items-start justify-between mb-14">
-					<div>
-						<h1 className="text-4xl md:text-5xl font-bold leading-tight">
-							Admin
-						</h1>
-						<p className="text-sm mt-2 opacity-50">
-							Logged in as{" "}
-							<span className="opacity-100 font-medium">{username}</span>
-						</p>
-					</div>
+				<AdminHeader title="Admin">
 					<SignOutButton />
-				</div>
+				</AdminHeader>
 
-				{/* Section Cards */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					{sections.map((section) =>
 						section.disabled ? (
@@ -82,7 +64,6 @@ export default async function AdminDashboard() {
 					)}
 				</div>
 
-				{/* Back to site */}
 				<div className="my-14 border-t border-foreground/10" />
 				<UpdateDbButtons />
 				<div className="mt-14">

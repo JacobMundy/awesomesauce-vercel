@@ -1,9 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import DeleteRecipeButton from "./DeleteRecipeButton";
+import AdminHeader from "../AdminHeader";
 
 export default async function AdminRecipes() {
+	const supabase = await createClient();
 	const { data } = await supabase
 		.from("recipes")
 		.select("name, slug, average_time, description")
@@ -14,21 +15,7 @@ export default async function AdminRecipes() {
 	return (
 		<main className="min-h-screen bg-background text-foreground px-4 py-16 md:px-8">
 			<div className="max-w-3xl mx-auto">
-				{/* Header */}
-				<div className="flex items-start justify-between mb-10">
-					<div>
-						<Link
-							href="/admin"
-							className="text-xs opacity-40 hover:opacity-70 transition-opacity uppercase tracking-widest block mb-4"
-						>
-							← Admin
-						</Link>
-						<h1 className="text-4xl font-bold">Recipes</h1>
-						<p className="text-sm mt-2 opacity-50">
-							Logged in as{" "}
-							<span className="opacity-100 font-medium">{username}</span>
-						</p>
-					</div>
+				<AdminHeader title="Recipes" backHref="/admin" backLabel="Admin">
 					<Link
 						href="/admin/recipes/new"
 						className="mt-8 flex items-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-xl hover:opacity-80 transition-opacity"
@@ -36,9 +23,8 @@ export default async function AdminRecipes() {
 						<span className="text-lg leading-none">+</span>
 						New Recipe
 					</Link>
-				</div>
+				</AdminHeader>
 
-				{/* Recipe List */}
 				{!recipes || recipes.length === 0 ? (
 					<div className="text-center py-20 opacity-40">
 						<p className="text-4xl mb-4">🍽️</p>

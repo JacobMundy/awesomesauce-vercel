@@ -11,9 +11,5 @@ export default async function AdminLayout({ children }) {
 	if (user.user_metadata?.provider_id !== process.env.ADMIN_GITHUB_ID)
 		redirect("/");
 
-	const username = user.user_metadata?.user_name;
-
-	console.log("Admin user:", user);
-
 	return <>{children}</>;
 }

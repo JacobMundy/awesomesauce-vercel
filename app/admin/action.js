@@ -1,14 +1,14 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-
-const supabase = await createClient();
+import { requireAdmin } from "../../lib/admin-auth";
 
 export async function handleCompleteUpdate() {
+	await requireAdmin();
 	revalidatePath("/", "layout");
 }
 
 export async function handlePathUpdate(path) {
+	await requireAdmin();
 	revalidatePath(path);
 }
