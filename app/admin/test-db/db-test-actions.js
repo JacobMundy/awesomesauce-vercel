@@ -17,9 +17,6 @@ export async function clearTestData() {
 	const supabase = await createClient();
 	await supabase.from("recipes").delete().eq("slug", "test-recipe");
 	revalidatePath("/recipes");
-	confirm(
-		"Test data cleared. Please check the recipes page to confirm the test recipe has been removed.",
-	);
 }
 
 export async function revalidateRecipes() {

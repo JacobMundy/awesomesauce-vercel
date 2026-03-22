@@ -4,17 +4,6 @@ import Link from "next/link";
 import RecipeForm from "../RecipeForm";
 
 export default async function NewRecipePage() {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) redirect("/admin/login");
-	if (user.user_metadata?.provider_id !== process.env.ADMIN_GITHUB_ID)
-		redirect("/");
-
-	const username = user.user_metadata?.user_name;
-
 	return (
 		<main className="min-h-screen bg-background text-foreground px-4 py-16 md:px-8">
 			<div className="w-full mx-auto">

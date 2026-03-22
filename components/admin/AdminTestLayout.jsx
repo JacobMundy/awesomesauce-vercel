@@ -148,7 +148,6 @@ export function BackToSiteButton() {
 // Drop-in wrapper that combines all three zones
 export default function AdminTestLayout({
 	title,
-	tests = [],
 	actions = [],
 	previewPath = "/",
 }) {

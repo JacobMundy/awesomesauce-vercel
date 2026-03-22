@@ -4,17 +4,6 @@ import Link from "next/link";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 
 export default async function AdminRecipes() {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) redirect("/admin/login");
-	if (user.user_metadata?.provider_id !== process.env.ADMIN_GITHUB_ID)
-		redirect("/");
-
-	const username = user.user_metadata?.user_name;
-
 	const { data } = await supabase
 		.from("recipes")
 		.select("name, slug, average_time, description")
