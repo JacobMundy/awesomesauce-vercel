@@ -1,21 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 import RecipeForm from "../../RecipeForm";
+import AdminHeader from "../../../AdminHeader";
 
 export default async function EditRecipePage({ params }) {
 	const { slug } = await params;
-
 	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) redirect("/admin/login");
-	if (user.user_metadata?.provider_id !== process.env.ADMIN_GITHUB_ID)
-		redirect("/");
-
-	const username = user.user_metadata?.user_name;
 
 	const { data: recipe } = await supabase
 		.from("recipes")
@@ -28,17 +18,11 @@ export default async function EditRecipePage({ params }) {
 	return (
 		<main className="min-h-screen bg-background text-foreground px-4 py-16 md:px-8">
 			<div className="max-w-2xl mx-auto">
-				<Link
-					href="/admin/recipes"
-					className="text-xs opacity-40 hover:opacity-70 transition-opacity uppercase tracking-widest block mb-8"
-				>
-					← Recipes
-				</Link>
-				<h1 className="text-4xl font-bold mb-1">{recipe.name}</h1>
-				<p className="text-sm opacity-50 mb-10">
-					Logged in as{" "}
-					<span className="opacity-100 font-medium">{username}</span>
-				</p>
+				<AdminHeader
+					title={recipe.name}
+					backHref="/admin/recipes"
+					backLabel="Recipes"
+				/>
 				<RecipeForm recipe={recipe} />
 			</div>
 		</main>
