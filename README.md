@@ -22,5 +22,5 @@ Repo For [my website](https://www.awesomesauce.bet)
 * **Routing:** File-based with dynamic slugs for recipe pages
 
 ## Architecture Notes
-Admin routes and server actions are protected server-side — not just hidden on the client. The security test page runs auth guard checks against all sensitive endpoints and logs pass/fail results.
+Admin routes and server actions are protected server-side, not just hidden on the client. The security test page runs auth guard checks against all sensitive endpoints and logs pass/fail results.
 Cache revalidation is triggered automatically on recipe mutations and can also be triggered manually from the admin panel, which was added after discovering Vercel was serving stale data after database updates.
