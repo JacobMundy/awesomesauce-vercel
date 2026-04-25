@@ -1,6 +1,7 @@
 # Awesome Sauce
 A full-stack recipe and personal site built with Next.js, hosted on Vercel, and backed by Supabase for database and storage.
 
+[https://www.awesomesauce.bet](https://www.awesomesauce.bet)
 
 ## Features
 ### Public
@@ -12,7 +13,6 @@ A full-stack recipe and personal site built with Next.js, hosted on Vercel, and 
 * Add, edit, and delete recipes through a UI instead of manually editing files
 * Cache revalidation controls to force Vercel to sync with the latest database state
 * Built-in security test page to verify auth guards on all protected routes and server actions
-Repo For [my website](https://www.awesomesauce.bet)
 
 ## Tech Stack
 * **Framework:** Next.js (App Router)
