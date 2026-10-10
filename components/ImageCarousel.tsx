@@ -5,60 +5,43 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function ImageCarousel({ images }: { images: string[] }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 2500 })]);
-
   const [fullscreen, setFullscreen] = useState<string | null>(null);
-  useEffect(() => {
-    if (!emblaApi) return;
-    const onWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      if (event.deltaY < 0) emblaApi.scrollPrev();
-      else if (event.deltaY > 0) emblaApi.scrollNext();
-    };
-    emblaApi.containerNode().addEventListener("wheel", onWheel);
-    return () => emblaApi.containerNode().removeEventListener("wheel", onWheel);
-  }, [emblaApi]);
 
   function onKeyDown(event: KeyboardEvent) {
     if (event.key === "Escape") {
       setFullscreen(null);
-    } else if (event.key === "ArrowLeft") {
-      emblaApi?.scrollPrev();
-    } else if (event.key === "ArrowRight") {
-      emblaApi?.scrollNext();
     }
   }
   useEffect(() => {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [emblaApi]);
+  });
   return (
     <>
-      <div className="relative w-full max-w-2xl">
-        <div className="overflow-hidden px-4" ref={emblaRef}>
-          <div className="flex gap-4">
-            {images.map((url) => (
-              <div
-                key={url}
-                className="flex-none w-4/5 relative aspect-square cursor-zoom-in rounded-lg overflow-hidden"
-                onClick={() => setFullscreen(url)}
-              >
-                <Image
-                  src={url}
-                  fill
-                  sizes="(max-width: 576px) 100vw, 576px"
-                  loading="eager"
-                  className="object-contain"
-                  alt=""
-                />
-                <p className=" text-center text-2xl font-bold dark:text-gray-400 mt-2">
-                  {url.split("/").pop()}
-                </p>
-              </div>
-            ))}
-          </div>
+<div className="h-[500px] w-full max-w-5xl overflow-y-auto overflow-x-hidden">
+  <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 lg:grid-cols-4">
+    {images.map((url) => (
+      <div key={url}>
+        <div
+          className="relative aspect-square cursor-zoom-in rounded-lg"
+          onClick={() => setFullscreen(url)}
+        >
+          <Image
+            src={url}
+            fill
+            sizes="(max-width: 576px) 50vw, 288px"
+            loading="eager"
+            className="object-contain"
+            alt=""
+          />
         </div>
+        <p className="mt-2 text-center text-xl font-bold dark:text-gray-200">
+          {url.split("/").pop()}
+        </p>
       </div>
+    ))}
+  </div>
+</div>
       {/* Fullscreen modal */}
       {fullscreen && (
         <div
